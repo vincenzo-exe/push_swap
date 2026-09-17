@@ -51,12 +51,11 @@ void	stack_add_back(t_stack **stack, t_stack *new_node);
 void	stack_clear(t_stack **stack);
 
 /* Stack utilities */
-int		stack_size(t_stack *stack);
-int		stack_is_sorted(t_stack *stack);
-t_stack	*stack_last(t_stack *stack);
+int	stack_size(t_stack *stack);
+int	stack_is_sorted(t_stack *stack);
 
 /* Indexing */
-int		assign_indexes(t_stack *stack);
+void		assign_indexes(t_stack *stack);
 
 /* Sorting */
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);

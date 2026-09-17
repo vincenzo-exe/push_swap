@@ -15,7 +15,7 @@ static void	free_tokens(char **tokens)
 	free(tokens);
 }
 
- int		add_number(t_stack **stack, char *str)
+static int		add_number(t_stack **stack, char *str)
 {
     int value;
     t_stack *new_node;

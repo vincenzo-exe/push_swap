@@ -19,6 +19,9 @@ static void	swap(t_stack *stack)
 	tmp = stack->value;
 	stack->value = stack->next->value;
 	stack->next->value = tmp;
+    tmp = stack->index;
+    stack->index = stack->next->index;
+    stack->next->index = tmp;
 }
 
 void	sa(t_stack *stack_a)
