@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahmamou <aahmamou@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 20:27:36 by aahmamou          #+#    #+#             */
+/*   Updated: 2026/09/17 20:27:37 by aahmamou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	free_tokens(char **tokens)
@@ -15,22 +27,22 @@ static void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-static int		add_number(t_stack **stack, char *str)
+static int	add_number(t_stack **stack, char *str)
 {
-    int value;
-    t_stack *new_node;
+	int		value;
+	t_stack	*new_node;
 
-    if (!is_valid_number(str))
-        return (0);
-    if (!parse_number(str, &value))
-        return (0);
-    if (has_duplicate(*stack, value))
-        return (0);
-    new_node = stack_new(value);
-    if (!new_node)
-        return (0);
-    stack_add_back(stack, new_node);
-    return (1);
+	if (!is_valid_number(str))
+		return (0);
+	if (!parse_number(str, &value))
+		return (0);
+	if (has_duplicate(*stack, value))
+		return (0);
+	new_node = stack_new(value);
+	if (!new_node)
+		return (0);
+	stack_add_back(stack, new_node);
+	return (1);
 }
 
 static int	process_argument(char *arg, t_stack **stack)

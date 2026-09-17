@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   radix.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahmamou <aahmamou@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 20:28:33 by aahmamou          #+#    #+#             */
+/*   Updated: 2026/09/17 20:28:34 by aahmamou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static void	radix_pass(t_stack **stack_a, t_stack **stack_b,
-		int bit, int size)
+static void	radix_pass(t_stack **stack_a, t_stack **stack_b, int bit, int size)
 {
 	int	i;
 

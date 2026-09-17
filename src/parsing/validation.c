@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahmamou <aahmamou@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 20:27:57 by aahmamou          #+#    #+#             */
+/*   Updated: 2026/09/17 20:27:59 by aahmamou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	is_valid_number(char *str)
@@ -45,7 +57,7 @@ int	parse_number(char *str, int *value)
 	return (1);
 }
 
-int has_duplicate(t_stack *stack, int value)
+int	has_duplicate(t_stack *stack, int value)
 {
 	while (stack != NULL)
 	{
@@ -55,4 +67,3 @@ int has_duplicate(t_stack *stack, int value)
 	}
 	return (0);
 }
-
