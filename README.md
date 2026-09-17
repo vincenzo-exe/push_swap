@@ -195,7 +195,6 @@ Some useful references are listed below:
 
 * `o-reo/push_swap_visualizer` — Push_swap visualizer
 * `Hqndler/42-push_swap` — Push_swap implementation and performance discussion
-* `mcombeau/push_swap` — completed 42 Push_swap project and testing information
 * `42YerevanProjects/push_swap` — Radix-based Push_swap implementation
 * `Push_Swap: The least amount of moves with two stacks` — Medium article about Push_swap optimization
 * `Push swap tutorial` — Medium article explaining a Radix-based approach
