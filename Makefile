@@ -12,7 +12,11 @@ SRC = src/main.c \
 	src/parsing/stack_init.c \
 	src/parsing/validation.c \
 	src/sorting/indexing.c \
-	src/sorting/radix.c \
+	src/sorting/turk_target.c \
+	src/sorting/turk_cost.c \
+	src/sorting/turk_move.c \
+	src/sorting/turk_a.c \
+	src/sorting/turk_sort.c \
 	src/sorting/small_sort.c \
 	src/sorting/sort.c \
 	src/utils/free.c \

@@ -24,5 +24,5 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 	else if (size == 3)
 		sort_three(stack_a);
 	else
-		radix_sort(stack_a, stack_b);
+		turk_sort(stack_a, stack_b);
 }

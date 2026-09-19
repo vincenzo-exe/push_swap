@@ -23,6 +23,22 @@ typedef struct s_stack
 	struct s_stack	*next;
 }					t_stack;
 
+/* Turk Algorithm */
+int					turk_position(t_stack *stack, int index);
+int					turk_max_position(t_stack *stack);
+int					turk_min_position(t_stack *stack);
+int					turk_target_b(t_stack *stack, int index);
+int					turk_target_a(t_stack *stack, int index);
+
+int					turk_rotation(int position, int size);
+int					turk_cost(t_stack *a, t_stack *b, t_stack *node);
+t_stack				*turk_cheapest(t_stack *a, t_stack *b);
+
+void				turk_move_to_b(t_stack **a, t_stack **b, t_stack *node);
+void				turk_move_to_a(t_stack **a, t_stack **b);
+
+void				turk_sort(t_stack **a, t_stack **b);
+
 /* Operations */
 void				sa(t_stack *stack_a);
 void				sb(t_stack *stack_b);
@@ -61,6 +77,5 @@ void				assign_indexes(t_stack *stack);
 void				sort_stack(t_stack **stack_a, t_stack **stack_b);
 void				sort_two(t_stack **stack_a);
 void				sort_three(t_stack **stack_a);
-void				radix_sort(t_stack **stack_a, t_stack **stack_b);
 
 #endif

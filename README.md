@@ -16,7 +16,9 @@ The project focuses on:
 * Managing memory in C
 * Reducing the number of operations used to sort the stack
 
-For this implementation, the numbers are first converted to indexes based on their relative order. This makes it possible to use a binary Radix sort while keeping the original values unchanged.
+For this implementation, the numbers are first converted to indexes based on their relative order. This allows the sorting algorithm to work with simple ranks while keeping the original values unchanged.
+
+The main sorting strategy used in this branch is the **Turk algorithm**, a cost-based Push_swap strategy that selects elements according to the number of operations required to move them between the two stacks.
 
 Small inputs are handled separately with dedicated sorting functions.
 
@@ -96,19 +98,6 @@ ARG=$(shuf -i 1-100000 -n 500 | tr '\n' ' ')
 ./push_swap $ARG | wc -l
 ```
 
-### Current performance
-
-Using the current Radix implementation, one tested run produced:
-
-| Input              | Operations |
-| ------------------ | ---------: |
-| 100 random numbers |       1084 |
-| 500 random numbers |       6784 |
-
-These results satisfy the 42 minimum validation range of under 1100 operations for 100 numbers and under 8500 operations for 500 numbers.
-
-Performance can be improved further with a more operation-efficient sorting strategy.
-
 ## Project Structure
 
 ```text
@@ -130,9 +119,13 @@ push_swap/
     │   └── validation.c
     ├── sorting/
     │   ├── indexing.c
-    │   ├── radix.c
     │   ├── small_sort.c
-    │   └── sort.c
+    │   ├── sort.c
+    │   ├── turk_a.c
+    │   ├── turk_cost.c
+    │   ├── turk_move.c
+    │   ├── turk_sort.c
+    │   └── turk_target.c
     └── utils/
         ├── free.c
         └── stack_utils.c
@@ -142,15 +135,26 @@ push_swap/
 
 ### Linked-list stacks
 
-Both stacks are represented using linked lists. Each node stores:
+Both stacks are represented using linked lists.
+
+Each node stores:
 
 * The original integer value
 * Its sorted index
 * A pointer to the next node
 
+```c
+typedef struct s_stack
+{
+	int				value;
+	int				index;
+	struct s_stack	*next;
+}	t_stack;
+```
+
 ### Coordinate compression
 
-The original values can be very large or negative, so they are converted to indexes based on their relative order.
+The original values are converted to indexes based on their relative order.
 
 For example:
 
@@ -162,42 +166,63 @@ For example:
 50    → 4
 ```
 
-The Radix algorithm then works with these indexes instead of the original values.
-
-### Radix sort
-
-The implementation uses binary LSD Radix sort.
-
-For each bit:
-
-* `0` → push the element from A to B
-* `1` → rotate A
-* At the end of the pass, elements are pushed back from B to A
-
-This process is repeated for all required bits.
+The original values remain stored in the nodes, while the sorting algorithm uses the indexes to determine their relative order.
 
 ### Small sorting
 
-Inputs containing two or three elements are handled separately to avoid unnecessary Radix passes.
+Inputs containing two or three elements are handled separately.
+
+For two elements, the program swaps them only when they are in the wrong order.
+
+For three elements, the program uses a small set of `sa`, `ra`, and `rra` operations to handle all possible permutations.
+
+This avoids using the more general Turk algorithm when the input is already small.
+
+### Turk sorting
+
+For larger inputs, this branch uses a cost-based Turk sorting strategy.
+
+The algorithm works in several stages:
+
+1. Two elements are initially pushed from A to B when necessary, leaving three elements in A.
+2. The remaining elements in A are evaluated according to the cost of moving them to B.
+3. For each candidate, the algorithm calculates the required rotations in A and the target position in B.
+4. When both stacks need to rotate in the same direction, `rr` or `rrr` can combine the rotations.
+5. The cheapest candidate is moved from A to B.
+6. Once three elements remain in A, those three elements are sorted.
+7. Elements are then moved from B back to A using their correct target positions.
+8. Finally, A is rotated so that the smallest index is at the top.
+
+The cost calculation considers both stack rotations and the final push operation.
+
+### Rotation optimization
+
+The algorithm represents rotations using signed values:
+
+```text
+positive → ra / rb
+negative → rra / rrb
+```
+
+When both stacks rotate in the same direction, combined operations can be used:
+
+```text
+ra  + rb  → rr
+rra + rrb → rrr
+```
+
+This reduces the number of operations required to move an element.
 
 ## Resources
 
-The project was developed using the 42 Push_swap subject together with documentation and external resources about stacks, sorting algorithms, Radix sort, Push_swap strategies, testing, and visualization.
+The project was developed using the 42 Push_swap subject together with documentation and external resources about stacks, sorting algorithms, Push_swap strategies, testing, and visualization.
 
 Useful resources include:
 
 * 42 Push_swap subject
 * Push_swap visualizers
 * Sorting algorithm documentation
-* Push_swap algorithm articles on Medium
-
-Some useful references are listed below:
-
-* `o-reo/push_swap_visualizer` — Push_swap visualizer
-* `Hqndler/42-push_swap` — Push_swap implementation and performance discussion
-* `42YerevanProjects/push_swap` — Radix-based Push_swap implementation
-* `Push_Swap: The least amount of moves with two stacks` — Medium article about Push_swap optimization
-* `Push swap tutorial` — Medium article explaining a Radix-based approach
+* Push_swap algorithm articles
 
 ## AI Usage
 
@@ -206,9 +231,8 @@ AI was used as a learning and development assistant during this project.
 It was used for:
 
 * Understanding the Push_swap subject and requirements
-* Discussing parsing and input validation
-* Understanding coordinate compression and Radix sort
 * Debugging compilation and linker errors
 * Reviewing operation behavior and edge cases
+* Understanding the Turk sorting strategy
 * Designing and improving tests
-* Investigating Push_swap optimization strategies
+* Investigating Push_swap operation optimization
